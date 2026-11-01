@@ -9,6 +9,21 @@ Para efectos de agilidad institucional y desarrollo rápido de este MVP bajo un 
 1. **Consolidación Local Simulada:** El motor de base de datos (**PostgreSQL 17**) y el motor de respaldos (**pgBackRest**) operan de forma unificada utilizando almacenamiento local desacoplado lógicamente a través de volúmenes Docker. La separación física de infraestructura (nodos redundantes o almacenamiento de objetos inmutable) queda relegada a la fase final de despliegue en producción.
 2. **Estrategia Remota Cloud-Native:** Atendiendo a restricciones de hardware del operador local, el diseño técnico se optimizó para ser portado de forma nativa a un entorno en la nube (**GitHub Codespaces / Instancia Linux**), garantizando que la solución sea completamente reproducible con un comando estándar de terminal.
 
+## Mapa y Contenido de Archivos del Repositorio
+
+Para garantizar la transparencia y el entendimiento del panel evaluador, a continuación se detallan los componentes técnicos incluidos en esta solución:
+
+### 1. Orquestación y Despliegue
+* **`docker-compose.yml`**: Define las variables de entorno de la base de datos (`POSTGRES_DB: conectarural`), expone el puerto estándar `5432` y monta los volúmenes compartidos de almacenamiento. Incorpora la directiva de inicio `postgres -c config_file=/etc/postgresql/postgresql.conf` para forzar al motor a leer nuestra gobernanza personalizada.
+
+### 2. Infraestructura y Regulación de Datos (Carpeta `config/`)
+* **`config/postgresql.conf`**: Archivo de configuración del motor principal. Modifica los parámetros críticos para la Transformación Digital: activa el archivado continuo (`archive_mode = on`), eleva el nivel de la bitácora a réplica (`wal_level = replica`) y delega el transporte físico de la bitácora directamente al comando interno de pgBackRest (`archive_command`).
+* **`config/pgbackrest.conf`**: Configura el motor de respaldos. Define la estrofa (*stanza*) institucional de `conecta_rural`, direcciona la ruta física de las WALs de Postgres, establece políticas de retención completas (`repo1-retention-full=1`) y optimiza el uso de CPU mediante procesamiento paralelo acelerado.
+
+### 3. Scripts de Simulación y Validación Operacional
+* **`demo.sh`**: Script interactivo con **RUTs ficticios y secuenciales** según los lineamientos iniciales de la pauta. Muestra cronometradamente el flujo base del error del operador (RUTs 11.111.111-1 a 33.333.333-3), el aislamiento lógico y la restauración física.
+* **`demo_2.sh`**: Script de contingencia masiva robustecido con **RUTs reales y algoritmos chilenos de validación** (ej. 15.674.321-K, 18.234.987-6). Diseñado para simular un comportamiento fidedigno de carga transaccional del subsidio en la Subsecretaría de Hacienda, demostrando estabilidad en el procesamiento de bloques WAL y un 0% de pérdida de registros.
+
 ## Respuestas Oficiales
 
 ### 1. ¿Si se pierde el disco de la base, cuántos datos se pierden (RPO)? ¿De qué depende?
@@ -37,7 +52,7 @@ Para efectos de agilidad institucional y desarrollo rápido de este MVP bajo un 
 
 Para reproducir la simulación técnica del flujo del negocio y observar el comportamiento cronometrado de las fases analizadas, ejecute el siguiente comando en la consola:
 # archivo demo.sh con RUTs ficticios 
-# archivo demo2.sh con RUTs reales
+# archivo demo_2.sh con RUTs reales
 
 ```bash
 ./demo.sh
