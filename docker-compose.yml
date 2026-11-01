@@ -1,0 +1,18 @@
+on: '3.8'
+services:
+  db:
+    image: postgres:17
+    container_name: dba_conecta_rural
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: conectarural
+    volumes:
+      - ./config/postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./config/pgbackrest.conf:/etc/pgbackrest/pgbackrest.conf
+      - backup_data:/var/lib/pgbackrest
+    ports:
+      - "5432:5432"
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
+
+volumes:
+  backup_data:
