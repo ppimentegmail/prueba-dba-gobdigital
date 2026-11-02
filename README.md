@@ -24,7 +24,13 @@ Para garantizar la transparencia y el entendimiento del panel evaluador, a conti
 * **`demo.sh`**: Script interactivo con **RUTs ficticios y secuenciales** según los lineamientos iniciales de la pauta. Muestra cronometradamente el flujo base del error del operador (RUTs 11.111.111-1 a 33.333.333-3), el aislamiento lógico y la restauración física.
 * **`demo_2.sh`**: Script de contingencia masiva robustecido con **RUTs reales y algoritmos chilenos de validación** (ej. 15.674.321-K, 18.234.987-6). Diseñado para simular un comportamiento fidedigno de carga transaccional del subsidio en la Subsecretaría de Hacienda, demostrando estabilidad en el procesamiento de bloques WAL y un 0% de pérdida de registros.
 
-## Respuestas Oficiales
+### 4. Uso de IA 
+* **`INTEGRACION_IA.md`
+
+Este registro detalla cómo el operador guio a la IA para resolver el aislamiento de la data y el bypass seguro de los certificados SSL obsoletos en la estación de trabajo con S.O. MacOSX.
+
+
+## Respuestas
 
 ### 1. ¿Si se pierde el disco de la base, cuántos datos se pierden (RPO)? ¿De qué depende?
 * **Respuesta:** En la arquitectura implementada, la pérdida de datos potencial (RPO - Recovery Point Objective) se reduce a **cero registros comprometidos o al bloque de transacciones pendiente de archivado**.
